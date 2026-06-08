@@ -2,7 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const Usuario = require("./models/Usuario");
+
+const usuarioRoutes = require("./routes/usuarioRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 
@@ -20,17 +22,13 @@ app.get("/", (req, res) => {
   res.send("ReservApp API funcionando");
 });
 
+// Rutas
+app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/auth", authRoutes);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
 
-/*mongoose.connection.once("open", async () => {
-  await Usuario.create({
-    nombre: "Joaquin",
-    email: "joaquin@test.com",
-  });
-
-  console.log("Usuario creado");
-});*/
