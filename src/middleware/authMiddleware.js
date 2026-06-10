@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const verificarToken = (req, res, next) => {
-  
-    const token = req.header("Authorization");
+  const token = req.header("Authorization");
 
   if (!token) {
     return res.status(401).json({
@@ -11,10 +10,8 @@ const verificarToken = (req, res, next) => {
   }
 
   try {
-
-     console.log("TOKEN:", token);
-     console.log("SECRET:", process.env.JWT_SECRET);
-
+    console.log("TOKEN:", token);
+    console.log("SECRET:", process.env.JWT_SECRET);
 
     const verificado = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -22,8 +19,7 @@ const verificarToken = (req, res, next) => {
 
     next();
   } catch (error) {
-
-    console.log (error);
+    console.log(error);
 
     res.status(401).json({
       mensaje: "Token inválido",

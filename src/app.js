@@ -6,6 +6,7 @@ const dns = require('dns')
 
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const authRoutes = require("./routes/authRoutes");
+const reservaRoutes = require("./routes/reservaRoutes");
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 // Rutas
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/reservas", reservaRoutes);
 
 const PORT = process.env.PORT || 3000;
 
