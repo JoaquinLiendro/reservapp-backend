@@ -17,6 +17,4 @@ router.get("/:id", obtenerUsuarioPorId);
 router.put("/:id", actualizarUsuario);
 router.delete("/:id", eliminarUsuario);
 
-
-
 module.exports = router;

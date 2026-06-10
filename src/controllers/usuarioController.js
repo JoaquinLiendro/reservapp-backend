@@ -18,6 +18,7 @@ const obtenerUsuarios = async (req, res) => {
 
     res.status(200).json(usuarios);
   } catch (error) {
+
     res.status(500).json({
       mensaje: error.message,
     });
@@ -44,9 +45,10 @@ const obtenerUsuarioPorId = async (req, res) => {
 
 const actualizarUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const usuario = await Usuario.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      {new: true,});
 
     if (!usuario) {
       return res.status(404).json({
