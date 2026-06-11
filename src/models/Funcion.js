@@ -1,15 +1,15 @@
-const mongoose = required('mongoose');
+const mongoose = require('mongoose')
 
 const funcionSchema = new mongoose.Schema({
-pelicula: {type: moongose.Schema.Types.ObjectId,
+pelicula: {type: mongoose.Schema.Types.ObjectId,
            ref: 'Pelicula',
            required : true } , 
            fecha : { type: Date , required : true},
            sala : { type: Number , required:true},
-           capacidad : {type: Number ,requred: true},
-           precio :{tupe: Number , required : true}
+           capacidad : {type: Number ,required: true},
+           precio :{type: Number , required : true}
 
 
 })
 
-export default mongoose.model('Funcion', funcionSchema);
+module.exports = mongoose.model("Funcion" , funcionSchema)
