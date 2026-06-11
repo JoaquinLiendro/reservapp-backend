@@ -1,19 +1,23 @@
 const jwt = require("jsonwebtoken");
 
 const verificarToken = (req, res, next) => {
-  const token = req.header("Authorization");
+  
+  const AuthHeader = req.header("Authorization");
 
-  if (!token) {
-    return res.status(401).json({
-      mensaje: "Acceso denegado",
+  if (!AuthHeader) {
+    return res.status(401).json({ mensaje: "Acceso denegado, error de token",
     });
   }
+
+  const token  = AuthHeader.split(" ")[1]
 
   try {
     console.log("TOKEN:", token);
     console.log("SECRET:", process.env.JWT_SECRET);
 
     const verificado = jwt.verify(token, process.env.JWT_SECRET);
+
+      console.log("verificado:" , verificado)
 
     req.usuario = verificado;
 
@@ -22,9 +26,14 @@ const verificarToken = (req, res, next) => {
     console.log(error);
 
     res.status(401).json({
-      mensaje: "Token inválido",
+      mensaje: "Token inválido o expirado",
     });
   }
 };
+
+
+
+
+
 
 module.exports = verificarToken;

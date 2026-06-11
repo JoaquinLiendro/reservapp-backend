@@ -10,7 +10,7 @@ const usuarioSchema = new mongoose.Schema({
     edad: { type: Number,  required: true },
 
     rol: { type: String,
-        enum: ["usuario", "empleado"],
+        enum: ["usuario", "empleado", "admin"],
         default: "usuario",
     },
 
