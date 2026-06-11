@@ -46,7 +46,75 @@ const Pelicula = require("../models/Pelicula");
         }  
 }
 
+  const obtenerPeliculaPorId = async (req,res) => {
+try {
+        console.log("ID recibido:", req.params.id); // ← Agrega esto para debuggear
+        
+        if (!req.params.id) {
+            return res.status(400).json({ error: "ID no proporcionado" });
+        }
+
+        const pelicula = await Pelicula.findById(req.params.id);
+
+        if (!pelicula) {
+            return res.status(404).json({
+                mensaje: "Película no encontrada",
+            });
+        }
+
+        res.status(200).json(pelicula);
+    } catch (error) {
+        res.status(500).json({
+            mensaje: error.message,
+        });
+    }
+  }
+
+
+  const actualizarPelicula = async (req,res) => {
+
+    try{
+        const pelicula = await Pelicula.findByIdAndUpdate(
+            req.params.id,
+            req.body, { new : true}
+        )
+
+         if(!pelicula){
+            return res.status(404).json({error: "Pelicula no  existe"})
+         } 
+         res.status(500).json(pelicula); 
+
+    }catch(error){
+        res.status(500).json({error: error.message})
+    }
+  }
+
+const eliminarPelicula = async (req , res) =>{
+
+    try{
+         const pelicula = await Pelicula.findByIdAndDelete( req.params.id)
+
+            if(!pelicula){
+                return res.status(404).json({error:'La pelicula no se encontro'})
+            } 
+
+            res.status(200).json({error:'Pelicula eliminada correctamente'})
+          
+    } catch(error){
+        res.status(500).json({error: error.message})
+    
+}
+
+
+}
+
+
+
 module.exports = {
   crearPelicula,
-  obtenerPeliculas
+  obtenerPeliculas,
+  obtenerPeliculaPorId,
+  actualizarPelicula,
+  eliminarPelicula
+
 };
