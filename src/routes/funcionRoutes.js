@@ -1,17 +1,26 @@
 const express = require("express");
 const {
     crearFuncion,
-    obtenerFuncion,
-    obtenerFunciones
+    obtenerFunciones,
+    obtenerFuncionPorId,
+    obtenerFuncionPorPelicula,
+    actualizarFuncion,
+    eliminarFuncion
 } = require("../controllers/funcionController");
-
-
 
 const router = express.Router();
 
-router.post("/", crearFuncion);
-router.get("/funcion", obtenerFuncion)
-router.get("/", obtenerFunciones)
 
+router.post("/", crearFuncion);
+
+
+router.get("/", obtenerFunciones);
+router.get("/pelicula", obtenerFuncionPorPelicula);
+router.get("/:id", obtenerFuncionPorId);
+
+
+router.put("/:id", actualizarFuncion);
+
+router.delete("/:id", eliminarFuncion);
 
 module.exports = router;
