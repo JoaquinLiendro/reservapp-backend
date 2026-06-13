@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   try {
-    const { email, contrasena } = req.body;
+    const { email, password } = req.body;
 
     const usuario = await Usuario.findOne({ email });
 
@@ -13,9 +13,9 @@ const login = async (req, res) => {
       });
     }
 
-    if (usuario.contrasena !== contrasena) {
+    if (usuario.password !== password) {
       return res.status(401).json({
-        mensaje: "Contraseña incorrecta",
+        mensaje: "password incorrecta",
       });
     }
 
