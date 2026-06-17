@@ -4,10 +4,12 @@ const crearUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.create(req.body);
 
+    
     res.status(201).json(usuario);
   } catch (error) {
+    console.log(error)
     res.status(500).json({
-      mensaje: error.message,
+      mensaje: "error al crear Usuario"
     });
   }
 };
@@ -18,7 +20,7 @@ const obtenerUsuarios = async (req, res) => {
 
     res.status(200).json(usuarios);
   } catch (error) {
-
+    
     res.status(500).json({
       mensaje: error.message,
     });

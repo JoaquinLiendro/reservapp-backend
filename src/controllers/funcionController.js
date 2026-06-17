@@ -1,4 +1,5 @@
 const Funcion = require("../models/Funcion");
+const Pelicula = require("../models/Pelicula")
 const mongoose = require('mongoose');
 
 const crearFuncion = async (req, res) => {
@@ -51,30 +52,49 @@ const obtenerFuncionPorId = async (req, res) => {
     }
 };
 
-const obtenerFuncionPorPelicula = async (req, res) => {
-    const { pelicula } = req.query;
+const buscarFuncionPorPelicula = async (req, res) => {
+   const { titulo } = req.query;
 
-    if (!pelicula) {
-        return res.status(400).json({ error: 'Parámetro pelicula requerido' });
+    if (!titulo) {
+        return res.status(400).json({ error: 'Parámetro titulo requerido' });
     }
 
     try {
-        // Valida que sea un ObjectId válido
-        if (!mongoose.Types.ObjectId.isValid(pelicula)) {
-            return res.status(400).json({ error: 'ID de película inválido' });
+        console.log("Título recibido:", titulo);
+
+        // Busca la película por título
+        const pelicula = await Pelicula.findOne({ 
+            titulo: { $regex: `^${titulo}`, $options: "i" } 
+        });
+
+        console.log("Película encontrada:", pelicula);
+
+        if (!pelicula) {
+            return res.status(404).json({
+                error: "Película no encontrada"
+            });
         }
 
+        // Busca las funciones con el ID de la película
         const funciones = await Funcion.find({ 
-            pelicula: pelicula 
+            pelicula: pelicula._id 
         }).populate("pelicula");
-        
+
+        console.log("Funciones encontradas:", funciones);
+
         if (funciones.length === 0) {
-            return res.status(404).json({ error: 'No hay funciones para esa película' });
+            return res.status(404).json({ 
+                error: 'No hay funciones para esa película' 
+            });
         }
 
         res.json(funciones);
+
     } catch (error) {
-        res.status(500).json({ error: 'Error al buscar funciones' });
+        console.log(error);
+        res.status(500).json({ 
+            error: 'Error al buscar funciones' 
+        });
     }
 };
 
@@ -120,11 +140,13 @@ const eliminarFuncion = async (req, res) => {
     }
 };
 
+
 module.exports = {
     crearFuncion,
     obtenerFunciones,
     obtenerFuncionPorId,
-    obtenerFuncionPorPelicula,
+    buscarFuncionPorPelicula,
     actualizarFuncion,
-    eliminarFuncion
+    eliminarFuncion,
+    
 };
