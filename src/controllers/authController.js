@@ -3,8 +3,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs")
 
 const login = async (req, res) => {
+  const { email, password } = req.body;
+  
+  if(!email || !password){
+    res.status(400).json( {error: "Se requiere email y contrasena"})
+  }
+  
+  
   try {
-    const { email, password } = req.body;
 
     const usuario = await Usuario.findOne({ email });
 
