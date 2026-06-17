@@ -1,16 +1,31 @@
 const Usuario = require("../models/Usuario");
+const bcrypt = require("bcryptjs")
 
 const crearUsuario = async (req, res) => {
+  const {nombre , email , password , edad} = req.body;
+ 
+  if(!nombre ||!email || !password || !edad){
+    return res.status(400).json({ error : "Faltan datos debe contener : nombre , email , password y edad"})
+  }
+  
+  const hashedPassword = await bcrypt.hash(password,10)
+  
+  const nuevoUsuario = {
+    nombre : nombre ,
+    email : email,
+    password: hashedPassword,
+    edad:edad
+  }
+  
   try {
-    const usuario = await Usuario.create(req.body);
-
+    const newUsuario = await Usuario.create(nuevoUsuario)
     
-    res.status(201).json(usuario);
+    res.status(201).json(newUsuario)
+
   } catch (error) {
+   
     console.log(error)
-    res.status(500).json({
-      mensaje: "error al crear Usuario"
-    });
+    res.status(500).json({ error:  " error al crear Usuario"});
   }
 };
 
