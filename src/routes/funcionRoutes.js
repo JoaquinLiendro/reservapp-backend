@@ -3,24 +3,25 @@ const {
     crearFuncion,
     obtenerFunciones,
     obtenerFuncionPorId,
-    obtenerFuncionPorPelicula,
+    buscarFuncionPorPelicula,
     actualizarFuncion,
     eliminarFuncion
 } = require("../controllers/funcionController");
+const verificarToken = require("../middleware/authMiddleware")
 
 const router = express.Router();
 
 
-router.post("/", crearFuncion);
+router.post("/", verificarToken , crearFuncion);
 
 
+router.get("/por-titulo", buscarFuncionPorPelicula);
+router.get("/:id", verificarToken , obtenerFuncionPorId);
 router.get("/", obtenerFunciones);
-router.get("/pelicula", obtenerFuncionPorPelicula);
-router.get("/:id", obtenerFuncionPorId);
 
 
-router.put("/:id", actualizarFuncion);
+router.put("/:id", verificarToken , actualizarFuncion);
 
-router.delete("/:id", eliminarFuncion);
+router.delete("/:id", verificarToken , eliminarFuncion);
 
 module.exports = router;

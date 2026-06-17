@@ -3,19 +3,23 @@ const {
     crearPelicula,
     obtenerPeliculas,
     obtenerPeliculaPorId,
+    buscarPelicula,
     actualizarPelicula,
     eliminarPelicula
 } = require("../controllers/peliculaController");
+const verificarToken = require("../middleware/authMiddleware")
 
 const router = express.Router();
 
 
-router.post("/", crearPelicula);
+router.post("/",verificarToken, crearPelicula);
 
-router.get("/", obtenerPeliculas);
+router.get("/", obtenerPeliculas)
+router.get("/search", buscarPelicula)
 router.get("/:id", obtenerPeliculaPorId);
 
-router.put("/:id", actualizarPelicula);
-router.delete("/:id", eliminarPelicula);
+
+router.put("/:id", verificarToken, actualizarPelicula);
+router.delete("/:id", verificarToken , eliminarPelicula);
 
 module.exports = router;

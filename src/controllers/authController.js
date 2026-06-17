@@ -48,10 +48,16 @@ const login = async (req, res) => {
 
 const perfil = async (req, res) => {
 
-    res.json({
-        mensaje: "Acceso autorizado",
-        usuario: req.usuario
-    });
+     try {
+        res.status(200).json({
+            mensaje: "Acceso autorizado",
+            usuario: req.usuario
+        });
+    } catch (error) {
+        res.status(500).json({
+            mensaje: error.message
+        });
+    }
 
     };
 

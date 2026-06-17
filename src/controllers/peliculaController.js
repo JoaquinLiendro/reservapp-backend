@@ -22,7 +22,18 @@ const Pelicula = require("../models/Pelicula");
     }
 }
 
- const obtenerPeliculas = async (req, res) => {
+
+const obtenerPeliculas = async (req, res) => {
+    try {
+        const peliculas = await Pelicula.find();
+        res.json(peliculas);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener las películas' });
+    }
+};
+
+ 
+ const buscarPelicula = async (req, res) => {
      const { titulo , genero} = req.query;
 
     const filtro = {};
@@ -71,6 +82,9 @@ try {
   }
 
 
+
+
+
   const actualizarPelicula = async (req,res) => {
 
     try{
@@ -113,8 +127,10 @@ const eliminarPelicula = async (req , res) =>{
 module.exports = {
   crearPelicula,
   obtenerPeliculas,
+  buscarPelicula,
   obtenerPeliculaPorId,
   actualizarPelicula,
   eliminarPelicula
+  
 
 };
