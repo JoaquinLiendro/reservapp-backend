@@ -1,5 +1,6 @@
 const Usuario = require("../models/Usuario");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs")
 
 const login = async (req, res) => {
   try {
@@ -8,15 +9,16 @@ const login = async (req, res) => {
     const usuario = await Usuario.findOne({ email });
 
     if (!usuario) {
-      return res.status(404).json({
-        mensaje: "Usuario no encontrado",
-      });
+      return res.status(404).json({  error: "Usuario no encontrado", });
     }
 
-    if (usuario.password !== password) {
-      return res.status(401).json({
-        mensaje: "password incorrecta",
-      });
+    const compararPassword = await bcrypt.compare(password , usuario.password)
+      console.log(usuario)
+
+
+    if (!compararPassword) {
+    
+      return res.status(401).json({    error: " usuario o contraseña incorrecta"  });
     }
 
     const token = jwt.sign(
